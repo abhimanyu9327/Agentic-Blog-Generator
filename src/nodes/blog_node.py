@@ -6,6 +6,13 @@ class BlogNode:
 
     def title_creation(self, state: BlogState):
         if "topic" in state and state["topic"]:
-            prompt = """Generate a title for the blog post on {topic}"""
-            response = self.llm.invoke(prompt.format(topic=state["topic"]))
+            prompt = """
+                   You are an expert blog content writer. Use Markdown formatting. Generate
+                   a blog title for the {topic}. This title should be creative and SEO friendly
+
+                   """
+            sytem_message = prompt.format(topic=state["topic"])
+            print(sytem_message)
+            response = self.llm.invoke(sytem_message)
+            print(response)
             return {"blog": {"title": response.content}}
