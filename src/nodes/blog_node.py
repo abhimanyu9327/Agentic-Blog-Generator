@@ -16,3 +16,9 @@ class BlogNode:
             response = self.llm.invoke(sytem_message)
             print(response)
             return {"blog": {"title": response.content}}
+
+    def content_generation(self, state: BlogState):
+        if "topic" in state and state["topic"]:
+            system_prompt = """Generate a detailed blog post with sections for {topic}"""
+            response = self.llm.invoke(system_prompt.format(topic=state["topic"]))
+            return {"blog": {"title": state['blog']['title'], "content": response.content}}
