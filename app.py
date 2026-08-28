@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI, Request
+from src.llms.groqllm import GroqLLM
 
 import os
 from dotenv import load_dotenv
@@ -17,4 +18,9 @@ os.environ["LANGSMITH_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
 async def create_blogs(request: Request):
     data = await request.json()
     topic = data.get("topic", "")
-    return {"status": "received", "topic": topic}
+
+    ## get the llm object
+    groqllm = GroqLLM()
+    llm = groqllm.get_llm()
+
+    return {"topic": topic}
