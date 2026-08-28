@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI, Request
+from src.graphs.graph_builder import GraphBuilder
 from src.llms.groqllm import GroqLLM
 
 import os
@@ -23,4 +24,9 @@ async def create_blogs(request: Request):
     groqllm = GroqLLM()
     llm = groqllm.get_llm()
 
-    return {"topic": topic}
+    ## get the graph
+    graph_builder = GraphBuilder(llm)
+    if topic:
+        graph = graph_builder.setup_graph(usecase="topic")
+
+    return {"status": "graph ready"}
