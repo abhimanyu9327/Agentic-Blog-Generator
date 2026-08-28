@@ -28,5 +28,6 @@ async def create_blogs(request: Request):
     graph_builder = GraphBuilder(llm)
     if topic:
         graph = graph_builder.setup_graph(usecase="topic")
+        state = graph.invoke({"topic": topic})
 
-    return {"status": "graph ready"}
+    return {"data": state}
